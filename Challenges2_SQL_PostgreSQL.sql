@@ -1,4 +1,3 @@
---Project nr 2 
 --Task 1.1
 --Requests : Create a tabel with the following names of the columns 
 --There should be NOT NULL constraints for the following columns:
@@ -8,7 +7,7 @@
 --start_date DATE,
 --birth_date DATE
 
---Solution
+--Solution:
 CREATE TABLE employees (emp_id INT PRIMARY KEY , 
 					   first_name TEXT NOT NULL,
 					   last_name TEXT NOT NULL,
@@ -28,37 +27,37 @@ ADD FOREIGN KEY ( store_id )REFERENCES store (store_id)
 --Task 1.2
 --Requests : Create an adtional table with the following names of the columns 
 --department_id,department, division,with choosing the proper data type   
---Solution
+--Solution:
 CREATE TABLE departments (department_id SERIAL PRIMARY KEY NOT NULL, 
 						 department  TEXT NOT NULL,
 						 division TEXT NOT NULL)
 
 --Task 2 
 --Alter the employees table in the following way:
--- Set the column department_id to not null.
--- Add a default value of CURRENT_DATE to the column start_date.
--- Add the column end_date with an appropriate data type (one that you think makes sense).
--- Add a constraint called birth_check that doesn't allow birth dates that are in the future.
--- Rename the column job_position to position_title.
+--Set the column department_id to not null.
+--Add a default value of CURRENT_DATE to the column start_date.
+--Add the column end_date with an appropriate data type (one that you think makes sense).
+--Add a constraint called birth_check that doesn't allow birth dates that are in the future.
+--Rename the column job_position to position_title.
 
---Solution
+--Solution:
 ALTER TABLE employees
 ALTER COLUMN department_id SET NOT NULL,
 ALTER COLUMN start_date SET DEFAULT CURRENT_DATE, 
 ADD COLUMN end_date DATE,
-ADD CONSTRAINT birth_check CHECK (birth_date <= CURRENT_DATE )
+ADD CONSTRAINT birth_check CHECK (birth_date <= CURRENT_DATE );
 
 ALTER TABLE employees
-RENAME COLUMN job_position TO position_title
+RENAME COLUMN job_position TO position_title;
 
 --Task 3
 --Task 3.1
 --Insert the following values into the employees table.
 --There will be most likely an error when you try to insert the values.
---So, try to insert the values and then fix the error.
---Columns:
+--So, try to insert the values and then fix the error columns.
 
---Solution
+
+--Solution:
 INSERT INTO employees 
 (emp_id,first_name,last_name,position_title,salary,start_date,birth_date,store_id,department_id,manager_id,end_date)
 VALUES (1,'Morrie','Conaboy','CTO',21268.94,'2005-04-30','1983-07-10',1,1,NULL,NULL),
@@ -86,19 +85,19 @@ VALUES (1,'Morrie','Conaboy','CTO',21268.94,'2005-04-30','1983-07-10',1,1,NULL,N
 (23,'Hamil','Evershed','Web Developper',3088.00,'2022-02-03','2012-03-30',1,4,2,NULL),
 (24,'Lowe','Diamant','Web Developper',6418.00,'2018-12-31','2002-09-07',1,4,2,NULL),
 (25,'Jack','Franklin','SQL Analyst',6771.00,'2013-05-18','2005-10-04',1,2,2,NULL),
-(26,'Jessica','Brown','SQL Analyst',8566.00,'2003-10-23','1965-01-29',1,1,2,NULL)
+(26,'Jessica','Brown','SQL Analyst',8566.00,'2003-10-23','1965-01-29',1,1,2,NULL);
 
 --Task 3.1
 --Insert the following values into the departments table.
 
---Solution
+--Solution:
 INSERT INTO departments VALUES (1,'Analytics','IT'),
                                (2,'Finance','Administration') ,
 						        (3,'Sales','Sales'),
 						        (4,'Website','IT'),
 						         (5,'Back Office', 'Administration' )
-
-SELECT * FROM departments
+--Displaying values from the table "departments"
+SELECT * FROM departments;
 
 -- Task 4
 -- Task 4.1
@@ -113,7 +112,7 @@ SET position_title = 'Senior SQL Analyst',
 WHERE first_name = 'Jack' AND last_name = 'Franklin'
 --Verification of the solution
 SELECT * FROM employees
-WHERE emp_id= 25
+WHERE emp_id= 25;
 
 --Task 4.2
 ---The responsible people decided to rename the position_title Customer Support to Customer Specialist.
@@ -121,11 +120,11 @@ WHERE emp_id= 25
 
 UPDATE employees
 SET position_title = 'Customer Specialist'
-WHERE position_title = 'Customer Support'
+WHERE position_title = 'Customer Support';
 
 --Verification of the task solution result
 SELECT emp_id,position_title FROM employees
-WHERE position_title = 'Customer Specialist'
+WHERE position_title = 'Customer Specialist';
 
 --Task 4.3
 
@@ -154,7 +153,7 @@ ORDER BY emp_id DESC;
 SELECT position_title,ROUND (AVG (salary),2)As average_salary
 FROM employees
 WHERE position_title = 'SQL Analyst' 
-GROUP BY position_title
+GROUP BY position_title;
 
 --Task 5
 --Task 5.1
@@ -200,7 +199,7 @@ CREATE TABLE employees1 AS
 TABLE employees;
 
 ALTER TABLE employees1
-RENAME COLUMN manager_name TO employee_name
+RENAME COLUMN manager_name TO employee_name;
 
 --Task 6
 --Write a query that returns the average salaries for each positions with appropriate roundings.
@@ -211,12 +210,12 @@ RENAME COLUMN manager_name TO employee_name
 SELECT position_title,ROUND (AVG(salary),2) AS averagy_position_salary
 FROM employees
 GROUP BY position_title
-ORDER BY averagy_position_salary DESC
+ORDER BY averagy_position_salary DESC;
 --Solution Task 6 - Question
 SELECT position_title, ROUND (AVG(salary),2) AS averagy_position_salary
 FROM employees
 WHERE position_title= 'Software Engineer'
-GROUP BY position_title
+GROUP BY position_title;
 
 --Task 7
 --Write a query that returns the average salaries per division.
@@ -230,14 +229,14 @@ SELECT division, ROUND (AVG (salary),2)
 FROM departments d
 LEFT JOIN employees e
 ON d.department_id= e.department_id
-GROUP BY division
+GROUP BY division;
 --Solution Task 7 - Question
 SELECT department, ROUND (AVG (salary),2) 
 FROM departments d
 LEFT JOIN employees e
 ON d.department_id= e.department_id
 WHERE department = 'Sales'
-GROUP BY department
+GROUP BY department;
 
 
 --Task 8.1
@@ -257,7 +256,7 @@ SELECT emp_id, first_name,
 last_name,position_title,
 salary, ROUND(AVG (salary) OVER (PARTITION BY position_title ),2)AS avg_position_title_sal 
 FROM employees 
-ORDER BY emp_id 
+ORDER BY emp_id ;
 
 
 --Task 8.2
@@ -269,7 +268,7 @@ ORDER BY emp_id
 -- Solution Task 8.2
 SELECT COUNT (*) FROM employees AS t1 
 WHERE salary < (SELECT AVG (salary) FROM employees AS t2 
-				WHERE t1.position_title= t2.position_title)
+				WHERE t1.position_title= t2.position_title);
 --Task 9:
 
 --Write a query that returns a running total of the salary development 
@@ -293,7 +292,7 @@ SELECT emp_id,salary,start_date,
 FROM employees
 WHERE start_date <= '2018-12-31'
 ORDER BY start_date DESC
-LIMIT 1
+LIMIT 1;
 
 Answer:
 
@@ -353,7 +352,7 @@ SELECT
 WHERE is_active = 'false'
 GROUP BY end_date,emp_id,salary
 	  ORDER BY start_date )a
-GROUP BY start_date
+GROUP BY start_date;
 
 --Solution Task 10 - Question
 SELECT
@@ -371,7 +370,7 @@ GROUP BY end_date,emp_id,salary
 WHERE start_date <='2018-12-31'
 GROUP BY start_date
 ORDER BY start_date DESC
-LIMIT 1
+LIMIT 1;
 
 --Task 11
 --Task 11.1
@@ -392,7 +391,7 @@ WHERE
         FROM employees
         WHERE position_title = e.position_title
     )
-ORDER BY max_salary_position_title DESC
+ORDER BY max_salary_position_title DESC;
 
 --Solution Task 11 -Question
 SELECT
@@ -407,7 +406,7 @@ WHERE
         FROM employees
         WHERE position_title = e.position_title
     )
-AND e.position_title ='SQL Analyst'
+AND e.position_title ='SQL Analyst';
 
 --Task 11.2
 --Add also the average salary per position_title.
@@ -422,7 +421,7 @@ WHERE e1.position_title=e3.position_title)
 FROM employees e1
 WHERE salary = (SELECT MAX(salary)
 			   FROM employees e2
-			   WHERE e1.position_title=e2.position_title) 
+			   WHERE e1.position_title=e2.position_title) ;
 
 --Task 11.3
 
@@ -445,7 +444,7 @@ WHERE salary = (SELECT MAX(salary)
 			   WHERE e1.position_title=e2.position_title)
 AND salary<>(SELECT ROUND(AVG(salary),2) as avg_in_pos FROM employees e3
 WHERE e1.position_title=e3.position_title) 
-ORDER BY avg_in_pos DESC
+ORDER BY avg_in_pos DESC;
 
 --Solution 2 Task 11.3
 SELECT Q1.first_name,Q1.position_title,Q1.salary AS max_salary_position_title ,
@@ -477,7 +476,7 @@ WHERE
 ORDER BY max_salary_position_title DESC) AS Q2
 ON Q1.position_title = Q2.position_title
 WHERE (Q1.avg_in_pos - COALESCE(Q2.max_salary_position_title, 0)) !=0
-ORDER BY avg_in_pos DESC
+ORDER BY avg_in_pos DESC;
 
 --Task 12
 
@@ -496,7 +495,7 @@ FROM employees emp
 LEFT JOIN departments dep
 ON emp.department_id = dep.department_id
 GROUP BY ROLLUP ( dep.division,dep.department,emp.position_title)
-ORDER BY 1,2,3 
+ORDER BY 1,2,3 ;
 
 --Solution 2 Task 12
 SELECT 
@@ -514,7 +513,7 @@ division,
 department,
 position_title
 )
-ORDER BY 1,2,3
+ORDER BY 1,2,3;
 
   
 --Task 13
@@ -533,7 +532,7 @@ emp_id,position_title AS position_title ,division AS division,
 department AS department,salary AS max_salary
 FROM employees
 NATURAL JOIN departments GROUP BY emp_id,position_title,division,department,salary ) a 
-GROUP BY a.emp_id,a.position_title,a.division,a.department,max_salary
+GROUP BY a.emp_id,a.position_title,a.division,a.department,max_salary;
 
 
 --Solution 2 Task 13 	
@@ -543,7 +542,7 @@ position_title,
 department,salary,
 RANK () OVER(PARTITION BY department ORDER BY salary DESC) 
 FROM employees
-NATURAL LEFT JOIN departments
+NATURAL LEFT JOIN departments;
 
 --Task 14
 
@@ -568,7 +567,7 @@ RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS rank
 FROM employees
 NATURAL LEFT JOIN departments )a
 WHERE rank = 1 
-ORDER BY salary DESC
+ORDER BY salary DESC;
 
 --Solution Task 14 - Question
 SELECT * FROM (SELECT 
@@ -580,5 +579,5 @@ RANK() OVER(PARTITION BY department ORDER BY salary DESC) AS rank
 FROM employees
 NATURAL LEFT JOIN departments )a
 WHERE rank = 1 AND department = 'Finance'
-ORDER BY salary DESC 
+ORDER BY salary DESC ;
 	  
