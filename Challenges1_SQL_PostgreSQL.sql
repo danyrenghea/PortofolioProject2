@@ -1,8 +1,8 @@
---Challenge no 1: Create a list with the top overall revenue / total max income 
+--Enunciation: Create a list with the top overall revenue / total max income 
 --of a film title (sum of amount per title) for each category (name).
 --Question: Which is the top-performing film in the animation category?
 
---Solution Challenge no 1
+--Solution of the challenge :
 SELECT
 title,
 name,
@@ -36,7 +36,7 @@ SUM (amount) AS sum_amount
 	  GROUP BY name, title  ) sub
 	  WHERE F1.name=sub.name
 	  )	  
---Solution Challenge no 1- Question 	  
+--Solution to the challenge question:   
 SELECT
 title,
 name,
